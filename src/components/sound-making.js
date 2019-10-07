@@ -945,7 +945,11 @@ class SoundMaking extends Component {
         }
       }
       freq = note;
-      let textLabel = name + '' + harmonic;
+      // justIntonation shifts harmonics up by 1
+      if (this.context.state.justIntonation) {
+        harmonic--;
+      }
+      let textLabel = name + '' + (harmonic+1); // +1 to shift to musical standard
       this.scaleLabel = textLabel;
     }
     return Math.round(freq);
@@ -1081,7 +1085,7 @@ class SoundMaking extends Component {
           //   this.ctx.fillStyle = 'gold';
           // } else
           if(s.scalePattern[i] === 0){
-            this.ctx.fillStyle = '#ABE2FB';// blue line for key note
+            this.ctx.fillStyle = 'rgba(171,226,251, 0.8)';// blue line for key note
           }
           else {
             this.ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'; // white line for other notes

@@ -309,7 +309,7 @@ class Tuning extends Component {
 
   // Helper method that generates a label for the frequency or the scale note
   label(freq, x, y) {
-    const offset = 25;
+    const offset = 30;  // before was 25
     const scaleOffset = 10;
     this.ctx.font = '20px Inconsolata';
     this.ctx.fillStyle = 'white';
@@ -377,11 +377,11 @@ class Tuning extends Component {
           let index = freqToIndex(freq, resolutionMax, resolutionMin, height);
           this.frequencies[name] = freq;
           if (this.goldIndices.includes(index) && this.context.state.soundOn) {
-            this.ctx.fillStyle = 'gold';
+            this.ctx.fillStyle = 'rgba(255,215,0, 0.75)';
           } else if (s.scaleNames[i] === s.scaleNames[0]) {
-            this.ctx.fillStyle = '#ABE2FB';
+            this.ctx.fillStyle = 'rgba(171,226,251, 0.5)';
           } else {
-            this.ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            this.ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
           }
           this.ctx.fillRect(0, index, width, 1.5);
           freq = freq * 2;
