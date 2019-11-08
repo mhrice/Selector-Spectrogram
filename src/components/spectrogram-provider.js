@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {convertToLog, convertToLinear, getColorIndicesForCoord, convertHarmonicScaleToLog, scaleFilter} from "../util/conversions";
 import generateScale from '../util/generateScale';
 import {scaleOptions} from '../util/dropdownOptions';
+import {filter1} from "../util/filters";
 // React new Context API
 // Create Context
 export const SpectrogramContext = React.createContext();
@@ -83,6 +84,7 @@ class SpectrogramProvider extends Component {
     scaleDropdown: false,
     scaleTypeDropdown: false,
     justIntonation: false,
+    preset: -1
   }
 
   //Functions that setState based on Controls
@@ -155,6 +157,7 @@ class SpectrogramProvider extends Component {
           if(this.state.sustain){
             this.setState({filterSustainChanged: !this.state.filterSustainChanged});
           }
+        //  console.log(heights)
         },
         queryFilter: yPercent => {
           if (!this.state.filterHeights) {
@@ -483,6 +486,51 @@ class SpectrogramProvider extends Component {
         },
         handleMIDIEnabled: () => this.setState({midiEnabled: true}),
         handleMIDIChange: () => this.setState({midi: !this.state.midi}),
+        handlePresetChange: preset => {
+          let numHarmonics = 0;
+          let filterHeights = [];
+          let delay = false;
+          switch(preset){
+            case 1:
+              numHarmonics = 40;
+              filterHeights = filter1;
+            break;
+            case 2:
+              numHarmonics = 80;
+              delay = true;
+              filterHeights = filter1.reverse();
+            break;
+            case 3:
+            break;
+            case 4:
+            break;
+            case 5:
+            break;
+            case 6:
+            break;
+            case 7:
+            break;
+            case 8:
+            break;
+            case 9:
+            break;
+            case 10:
+            break;
+          }
+          this.setState(
+            {
+              preset: preset,
+              reverbOn: true,
+              numHarmonics: numHarmonics,
+              drawFilter: true,
+              delay: delay,
+              filterHeights: filterHeights,
+              filterCanvasWidth: 300,
+              filterCanvasHeight: filterHeights.length
+              
+            }
+          );
+        },
         start: ()=> this.setState({isStarted: true}),
         reset: ()=> this.setState({
           resolutionMax: 20000,//Real Max

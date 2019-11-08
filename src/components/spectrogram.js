@@ -32,6 +32,7 @@ let audioTrack = null;
 const fftSize = 8192;
 // Spectrogram Graph that renders itself and 3 children canvases
 // (SoundMaking/TuningMode, Axes and FrequencyRange)
+let presets = [1,2,3,4,5,6,7,8,9,10]
 
 class Spectrogram extends Component {
   constructor(props) {
@@ -407,6 +408,10 @@ class Spectrogram extends Component {
   //       this.setState({deferredPrompt: null});
   //     });
   // }
+  
+  handlePreset = id =>{
+    this.context.handlePresetChange(id);
+  }
 
   render() {
     let headphoneStyle={'backgroundColor': ''};
@@ -421,6 +426,7 @@ class Spectrogram extends Component {
     if(this.context.state.midi){
       microphoneStyle = {'backgroundColor': '#2769d8'};
     }
+    
 
     return (
       <SpectrogramContext.Consumer>
@@ -450,7 +456,21 @@ class Spectrogram extends Component {
             noteLinesOn={context.state.noteLinesOn}
             ref={this.frequencyRangeRef}
             />} */}
-            <Button icon onClick={context.handlePause} className="pause-button">
+            <div className="preset-container">
+              {presets.map(preset=>{
+                let backgroundColor = ""
+                if(preset === this.context.state.preset){
+                  backgroundColor = "#2769d8"
+                }
+                else {
+                  backgroundColor = "#ABE2FB"
+                }
+                return (
+                <div className="preset" style={{backgroundColor: backgroundColor}} onClick={(e)=>{this.handlePreset(preset)}} id={preset}>{preset}</div>
+                )
+              })}
+            </div>
+            {/* <Button icon onClick={context.handlePause} className="pause-button">
             {!context.state.speed  ?  <Icon fitted name="play" color="red"/> :
               <Icon fitted name="pause" color="red"/>}
             </Button>
@@ -472,7 +492,7 @@ class Spectrogram extends Component {
             <Button icon onClick={this.context.handleMIDIChange} className="midi-button" style={midiStyle} disabled={!context.state.midiEnabled}>
               {context.state.midi ? <img src={Logo2} height={20} width={15} className="midi-logo" alt="midi on"/> :
               <img src={Logo3} height={14.5} width={13.25} className="midi-logo" alt="midi off"/>}
-            </Button>
+            </Button> */}
             <div className="color-map-container">
               <div className="color-map-text">Graph Scale</div>
               <div className="color-map"></div>

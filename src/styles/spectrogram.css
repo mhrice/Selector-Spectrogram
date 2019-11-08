@@ -114,6 +114,28 @@
   width: 20vw;
 }
 
+.preset-container {
+  position: absolute;
+  left: 0%;
+  top: 10%;
+  color: black;
+  width: 90%;
+  z-index: 21;
+  display: flex;
+}
+
+.preset {
+  flex: 1;
+  display: flex;
+  padding: 1rem;
+  justify-content: center;
+  color: black;
+  user-select: none;
+  /* background-color:#ABE2FB; */
+  /* 2769d8 */
+  border-right: 1px solid black;
+}
+
 .pause-button {
   position: absolute;
   left: 0%;
