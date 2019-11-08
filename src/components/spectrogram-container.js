@@ -47,7 +47,7 @@ class SpectrogramContainer extends Component {
       <SpectrogramContext.Consumer>
       {(context) => (
       <React.Fragment>
-      <Menu
+      {/* <Menu
       reset={context.reset}
       handleGainChange={context.handleGainChange}
       gain={context.state.gain}
@@ -66,7 +66,7 @@ class SpectrogramContainer extends Component {
       editScales={context.state.editScales}
       drawFilter={context.state.drawFilter}
       handleResize={context.handleResize}
-      />
+      /> */}
       <Spectrogram
       handleResize={context.handleResize}
       />

@@ -493,11 +493,11 @@ class Spectrogram extends Component {
               {context.state.midi ? <img src={Logo2} height={20} width={15} className="midi-logo" alt="midi on"/> :
               <img src={Logo3} height={14.5} width={13.25} className="midi-logo" alt="midi off"/>}
             </Button> */}
-            <div className="color-map-container">
+            {/* <div className="color-map-container">
               <div className="color-map-text">Graph Scale</div>
               <div className="color-map"></div>
               <div className="color-map-labels"><div>Soft</div><div>Loud</div></div>
-            </div>
+            </div> */}
             <KeyHandler
             keyEventName={KEYUP}
             keyValue=" "
@@ -518,13 +518,13 @@ class Spectrogram extends Component {
                ref={this.soundMakingRef}
                />
            )}
-            <Axes
+            {/* <Axes
             resolutionMax={context.state.resolutionMax}
             resolutionMin={context.state.resolutionMin}
             width={context.state.width}
             height={context.state.height}
             handleResize={this.handleResize}
-            ref={this.axesRef}/>
+            ref={this.axesRef}/> */}
           </React.Fragment>
           }
           {/* Intro Instructions */}
