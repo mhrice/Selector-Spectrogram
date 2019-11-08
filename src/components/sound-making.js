@@ -275,15 +275,14 @@ class SoundMaking extends Component {
       } else {
         this.synths[newVoice].triggerAttack(freq); // Starts the synth at frequency = freq
         let max = -Infinity;
-        this.synths[newVoice].oscillator.partials = harmonicWeights
-        .slice(0, this.context.state.numHarmonics + 1)
-        .map((weight, index) => {
-          let weightFromFilter = this.getFilterCoeficients(freq*(index+1));
-          if(weightFromFilter > max){
+        let h = harmonicWeights.slice(0, this.context.state.numHarmonics + 1);
+        for (let i = 0; i < this.synths[newVoice].oscillator.partials.length; i++) {
+          let weightFromFilter = this.getFilterCoeficients(freq * (i + 1));
+          if (weightFromFilter > max) {
             max = weightFromFilter;
           }
-          return weightFromFilter * weight;
-        })
+          this.synths[newVoice].oscillator.partials[i] = weightFromFilter * h[i];
+        }
         let newGain = gain + 20 * Math.log10(max);
 
         this.synths[newVoice].volume.value = newGain; // Starts the synth at volume = gain
@@ -349,15 +348,23 @@ class SoundMaking extends Component {
       this.drawPitchBendButton(false);
       // this.label(freq, pos.x, pos.y);
       let max = -Infinity;
-      this.synths[index].oscillator.partials = harmonicWeights
-        .slice(0, this.context.state.numHarmonics + 1)
-        .map((weight, index) => {
-          let weightFromFilter = this.getFilterCoeficients(freq * (index + 1));
-          if (weightFromFilter > max) {
-            max = weightFromFilter;
-          }
-          return weightFromFilter * weight;
-        })
+      let h = harmonicWeights.slice(0, this.context.state.numHarmonics + 1);
+      for(let i = 0; i < this.synths[index].oscillator.partials.length; i++){
+        let weightFromFilter = this.getFilterCoeficients(freq * (i + 1));
+        if (weightFromFilter > max) {
+          max = weightFromFilter;
+        }
+        this.synths[index].oscillator.partials[i] = weightFromFilter * h[i];
+      }
+      // this.synths[index].oscillator.partials = harmonicWeights
+      //   .slice(0, this.context.state.numHarmonics + 1)
+      //   .map((weight, i) => {
+      //     let weightFromFilter = this.getFilterCoeficients(freq * (i + 1));
+      //     if (weightFromFilter > max) {
+      //       max = weightFromFilter;
+      //     }
+      //     return weightFromFilter * weight;
+      //   })
       let newGain = gain + 20 * Math.log10(max);
       if (this.context.state.scaleOn) {
         // Jumps to new Frequency and Volume
@@ -470,15 +477,14 @@ class SoundMaking extends Component {
           this.drawPitchBendButton(this.state.pitchButtonPressed);
 
           let max = 0;
-          this.synths[newVoice].oscillator.partials = harmonicWeights
-          .slice(0, this.context.state.numHarmonics + 1)
-          .map((weight, index) => {
-            let weightFromFilter = this.getFilterCoeficients(freq * (index + 1));
+          let h = harmonicWeights.slice(0, this.context.state.numHarmonics + 1);
+          for (let i = 0; i < this.synths[newVoice].oscillator.partials.length; i++) {
+            let weightFromFilter = this.getFilterCoeficients(freq * (i + 1));
             if (weightFromFilter > max) {
               max = weightFromFilter;
             }
-            return weightFromFilter * weight;
-          });
+            this.synths[newVoice].oscillator.partials[i] = weightFromFilter * h[i];
+          }
           let newGain = gain + 20 * Math.log10(max);
           this.synths[newVoice].volume.value = newGain;
           if (this.state.pitchButtonPressed) {
@@ -565,15 +571,14 @@ class SoundMaking extends Component {
             this.fmSignals[index].triggerAttack(newFreq);
           }
           let max = -Infinity;
-          this.synths[index].oscillator.partials = harmonicWeights
-            .slice(0, this.context.state.numHarmonics + 1)
-            .map((weight, index) => {
-              let weightFromFilter = this.getFilterCoeficients(freq * (index + 1));
-              if (weightFromFilter > max) {
-                max = weightFromFilter;
-              }
-              return weightFromFilter * weight;
-            });
+          let h = harmonicWeights.slice(0, this.context.state.numHarmonics + 1);
+          for (let i = 0; i < this.synths[index].oscillator.partials.length; i++) {
+            let weightFromFilter = this.getFilterCoeficients(freq * (i + 1));
+            if (weightFromFilter > max) {
+              max = weightFromFilter;
+            }
+            this.synths[index].oscillator.partials[i] = weightFromFilter * h[i];
+          }
           // console.log("Volume: " + getGain(xPercent));
           // console.log("partials: " + this.synths[index].oscillator.partials);
             let newGain = gain + 20 * Math.log10(max);
