@@ -488,46 +488,106 @@ class SpectrogramProvider extends Component {
         handleMIDIChange: () => this.setState({midi: !this.state.midi}),
         handlePresetChange: preset => {
           let numHarmonics = 0;
-          let filterHeights = [];
           let delay = false;
+          let delayFeedback = 0;
+          let delayTime = 0;
+          let reverbTime = 1;
+          let amOn = false;
+          let amFrequency = 0;
+          let amAmplitude = 0;
+          let fmOn = false;
+          let fmFrequency = 0;
+          let fmAmplitude = 0;
+
           switch(preset){
             case 1:
-              numHarmonics = 40;
-              filterHeights = filter1;
+              numHarmonics = 2;
+              delayFeedback = 0.65;
+              delayTime = 0.5;
+              delay = true;
             break;
             case 2:
-              numHarmonics = 80;
+              numHarmonics = 4;
               delay = true;
-              filterHeights = filter1.reverse();
+              delayTime = 0.4;
             break;
             case 3:
+              delay = true;
+              delayTime = 0.3;
+              numHarmonics = 10;
+              fmOn = true;
+              fmFrequency = 0.3;
+              fmAmplitude = 0.1;
             break;
             case 4:
+              delay = true;
+              delayTime = 0.7;
+              numHarmonics = 31;
+              fmOn = true;
+              fmFrequency = 0.3;
+              fmAmplitude = 0.25;
             break;
             case 5:
+              delay = true;
+              delayTime = 0.2;
+              numHarmonics = 0;
             break;
             case 6:
+              delay = true;
+              delayTime = 0.2;
+              numHarmonics = 11;
+              amOn = true;
+              amFrequency = 0.45;
+              amAmplitude = 1;
             break;
             case 7:
+              delay = true;
+              delayTime = 0.2;
+              numHarmonics = 31;
+              fmOn = true;
+              fmFrequency = 0.7;
+              fmAmplitude = 1;
             break;
             case 8:
+              delay = true;
+              delayTime = 0.2;
+              numHarmonics = 3;
+              fmOn = true;
+              fmFrequency = 0.35;
+              fmAmplitude = 1;
             break;
             case 9:
+              delay = true;
+              delayTime = 0.2;
+              numHarmonics = 11;
+              fmOn = true;
+              fmFrequency = 0.4;
+              fmAmplitude = 0.1;
             break;
             case 10:
+              delay = true;
+              delayTime = 0.2;
+              numHarmonics = 19;
+              fmOn = true;
+              fmFrequency = 0.4;
+              fmAmplitude = 0.1;
             break;
           }
           this.setState(
             {
               preset: preset,
               reverbOn: true,
-              numHarmonics: numHarmonics,
-              drawFilter: true,
-              delay: delay,
-              filterHeights: filterHeights,
-              filterCanvasWidth: 300,
-              filterCanvasHeight: filterHeights.length
-              
+              reverbTime: reverbTime,
+              delayOn: delay,  
+              delayFeedback: delayFeedback,
+              delayTime: delayTime,
+              amOn: amOn,
+              amRate: amFrequency,
+              amLevel: amAmplitude,
+              fmOn: fmOn,
+              fmRate: fmFrequency,
+              fmLevel: fmAmplitude,
+              numHarmonics: numHarmonics            
             }
           );
         },
