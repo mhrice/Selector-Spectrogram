@@ -284,9 +284,11 @@ class SoundMaking extends Component {
           }
           return weightFromFilter * weight;
         })
+        
         let newGain = gain + 20 * Math.log10(max);
-
         this.synths[newVoice].volume.value = newGain; // Starts the synth at volume = gain
+        let volume = this.state.numHarmonics + 1;
+        this.context.handleOutputVolumeChange(volume);
         // console.log(gain, 20*Math.log10(max), gain+20*Math.log10(max))
       }
 
@@ -359,6 +361,8 @@ class SoundMaking extends Component {
           return weightFromFilter * weight;
         })
       let newGain = gain + 20 * Math.log10(max);
+      let volume = this.state.numHarmonics + 1;
+      this.context.handleOutputVolumeChange(volume);
       if (this.context.state.scaleOn) {
         // Jumps to new Frequency and Volume
         if (this.context.state.quantize) {
@@ -480,6 +484,8 @@ class SoundMaking extends Component {
             return weightFromFilter * weight;
           });
           let newGain = gain + 20 * Math.log10(max);
+          let volume = this.state.numHarmonics + 1;
+          this.context.handleOutputVolumeChange(volume);
           this.synths[newVoice].volume.value = newGain;
           if (this.state.pitchButtonPressed) {
             this.bendStartPercents[newVoice] = yPercent;
@@ -577,6 +583,8 @@ class SoundMaking extends Component {
           // console.log("Volume: " + getGain(xPercent));
           // console.log("partials: " + this.synths[index].oscillator.partials);
             let newGain = gain + 20 * Math.log10(max);
+            let volume = this.state.numHarmonics + 1;
+            this.context.handleOutputVolumeChange(volume);
           // These are the same as onMouseMove
           if (this.context.state.scaleOn && !this.state.pitchButtonPressed) {
             // Jumps to new Frequency and Volume
@@ -826,10 +834,11 @@ class SoundMaking extends Component {
       this.ctx.clearRect(0, 0, width, height);
       for (let i = 0; i < NUM_VOICES; i++) {
         let freq = this.synths[i].frequency.value;
+        let gain = this.synths[i].volume.value;
         this.synths[i].oscillator.type = "custom";
         let max = -Infinity;
         this.synths[i].oscillator.partials = harmonicWeights
-          .slice(0, this.context.state.numHarmonics + 1)
+          .slice(0, numHarmonics + 1)
           .map((weight, index) => {
             let weightFromFilter = this.getFilterCoeficients(freq * (index + 1));
             if (weightFromFilter > max) {
@@ -841,6 +850,10 @@ class SoundMaking extends Component {
           let xPos = (1 - gainToLinear(this.synths[i].volume.value)) * width;
           this.drawHarmonics(i, freq, xPos);
         }
+        // let newGain = 90*Math.log10(numHarmonics+1) + 10;
+        let newGain = numHarmonics + 1;
+        this.context.handleOutputVolumeChange(newGain);
+
       }
       if (noteLinesOn) {
         this.renderNoteLines();
@@ -976,7 +989,7 @@ class SoundMaking extends Component {
         this.ctx.fillText(freq, x + offset, y - offset);
       }
       else if (!this.context.state.scaleOn){ //|| this.context.state.numHarmonics > 1) {
-        this.ctx.fillText(freq + ' Hz', x + offset, y - offset);
+        // this.ctx.fillText(freq + ' Hz', x + offset, y - offset);
       } else {
         this.ctx.fillText(this.scaleLabel, x + offset, y - offset);
         let index = freqToIndex(freq, this.context.state.resolutionMax, this.context.state.resolutionMin, this.context.state.height);

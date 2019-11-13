@@ -124,6 +124,7 @@ class Spectrogram extends Component {
       
       // Start timeout for instructions to close
       this.setState({instr: false});
+      this.context.handlePresetChange(1);
       setTimeout(this.handleInstructionsClose, 5000);
 
     } //else {
@@ -378,7 +379,28 @@ class Spectrogram extends Component {
   spacePressed = (e) =>{
     e.preventDefault();
     e.stopPropagation();
-    this.context.handlePause();
+    // this.context.handlePause();
+    // this.context.handleSpace();
+  }
+
+  shiftPressed = e => {
+    e.preventDefault();
+    this.context.handleShift();
+  }
+
+  upPressed = e => {
+    e.preventDefault();
+    this.context.handleUp();
+  }
+
+  downPressed = e => {
+    e.preventDefault();
+    this.context.handleDown();
+  }
+
+  altPressed = e => {
+    e.preventDefault();
+    this.context.handleAlt();
   }
 
   handleResize = () => {
@@ -503,6 +525,26 @@ class Spectrogram extends Component {
             keyValue=" "
             onKeyHandle={this.spacePressed}
             />
+            <KeyHandler
+            keyEventName={KEYUP}
+            keyValue="Shift"
+            onKeyHandle={this.shiftPressed}
+            />  
+            <KeyHandler
+            keyEventName={KEYUP}
+            keyValue="ArrowUp"
+            onKeyHandle={this.upPressed}
+            />    
+            <KeyHandler
+            keyEventName={KEYUP}
+            keyValue="ArrowDown"
+            onKeyHandle={this.downPressed}
+            />     
+            <KeyHandler
+            keyEventName={KEYUP}
+            keyValue="Alt"
+            onKeyHandle={this.altPressed}
+            />                                              
             {/* Renders sound or tuning mode based on variable above */}
             {context.state.tuningMode ? (
                <Tuning

@@ -13,7 +13,7 @@ class SpectrogramProvider extends Component {
   //All Controls
   state = {
     soundOn: true,
-    microphoneGain: 50,
+    microphoneGain: 75,
     timbre: 'Sine',
     numHarmonics: 0,   
     // harmonicWeights: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -84,7 +84,11 @@ class SpectrogramProvider extends Component {
     scaleDropdown: false,
     scaleTypeDropdown: false,
     justIntonation: false,
-    preset: -1
+    preset: -1,
+    interval: null,
+    harmonicAscent: true,
+    harmonicMotion: false,
+    intervalTime: 100,
   }
 
   //Functions that setState based on Controls
@@ -486,6 +490,56 @@ class SpectrogramProvider extends Component {
         },
         handleMIDIEnabled: () => this.setState({midiEnabled: true}),
         handleMIDIChange: () => this.setState({midi: !this.state.midi}),
+        handleShift: () => this.setState({sustain: !this.state.sustain}),
+        handleUp:() => {
+          if(this.state.numHarmonics < 99){
+            this.setState({numHarmonics: this.state.numHarmonics+1})
+          }
+        },
+        handleDown:() => {
+          if(this.state.numHarmonics > 0){
+            this.setState({numHarmonics: this.state.numHarmonics-1})
+          }
+        },
+        handleAlt: () => {
+          if(!this.state.harmonicMotion){
+            let interval = setInterval(()=>{
+              let newSliderVal = 0;
+              if(this.state.harmonicAscent && this.state.harmonicsSliderValue >= 999){
+                newSliderVal = 2000;
+                this.setState({harmonicAscent: false})
+              }
+              else if(!this.state.harmonicAscent && this.state.harmonicsSliderValue <= 0) {
+                this.setState({harmonicAscent: true})
+                newSliderVal = -1000;
+
+              }
+              else {
+
+                if(this.state.harmonicAscent){
+                  newSliderVal = this.state.harmonicsSliderValue + 100;
+                } else {
+                  newSliderVal = this.state.harmonicsSliderValue - 100;
+                }
+                // console.log(newSliderVal)
+              }
+              if(newSliderVal > 1000){
+                newSliderVal = 1000;
+              } else if(newSliderVal < 0){
+                newSliderVal = 0;
+              }
+              let newHarmonics = Math.round(convertHarmonicScaleToLog(Number(newSliderVal), 1000));
+              this.setState({numHarmonics: newHarmonics, harmonicsSliderValue: newSliderVal});
+              }, this.state.intervalTime)
+              
+            this.setState({interval: interval, harmonicMotion: true, intervalTime: 100})
+          } else {
+            if (this.state.interval) {
+              clearInterval(this.state.interval)
+            }
+            this.setState({harmonicMotion: false})
+          }
+        },
         handlePresetChange: preset => {
           let numHarmonics = 0;
           let delay = false;
@@ -498,7 +552,10 @@ class SpectrogramProvider extends Component {
           let fmOn = false;
           let fmFrequency = 0;
           let fmAmplitude = 0;
-
+          let sustain = false;
+          if(this.state.interval){
+            clearInterval(this.state.interval)
+          }
           switch(preset){
             case 1:
               numHarmonics = 2;
@@ -530,6 +587,9 @@ class SpectrogramProvider extends Component {
             case 5:
               delay = true;
               delayTime = 0.2;
+              amOn = true;
+              amFrequency = 0.45;
+              amAmplitude = 1;
               numHarmonics = 0;
             break;
             case 6:
@@ -559,10 +619,12 @@ class SpectrogramProvider extends Component {
             case 9:
               delay = true;
               delayTime = 0.2;
-              numHarmonics = 11;
+              numHarmonics = 0;
+              sustain = true;
               fmOn = true;
               fmFrequency = 0.4;
               fmAmplitude = 0.1;
+              
             break;
             case 10:
               delay = true;
@@ -587,6 +649,7 @@ class SpectrogramProvider extends Component {
               fmOn: fmOn,
               fmRate: fmFrequency,
               fmLevel: fmAmplitude,
+              sustain: sustain,
               numHarmonics: numHarmonics            
             }
           );
