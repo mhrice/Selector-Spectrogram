@@ -1012,25 +1012,25 @@ class SoundMaking extends Component {
     const y = this.context.state.height - this.context.state.height * 0.12;
     const width = this.context.state.width * 0.05;
     const height = width;
-    const arcsize = 25;
-    this.ctx.beginPath();
-    this.ctx.moveTo(x, y);
-    this.ctx.moveTo(x+arcsize, y);
-    this.ctx.lineTo(x+width-arcsize, y);
-    this.ctx.arcTo(x+width, y, x+width, y+arcsize, arcsize);
-    this.ctx.lineTo(x+width,y+height-arcsize);
-    this.ctx.arcTo(x+width, y+height, x+width-arcsize, y+height, arcsize);
-    this.ctx.lineTo(x+arcsize, y+height);
-    this.ctx.arcTo(x, y+height, x, y-arcsize, arcsize);
-    this.ctx.lineTo(x, y+arcsize);
-    this.ctx.arcTo(x, y, x+arcsize, y, arcsize);
-    this.ctx.lineTo(x+arcsize, y);
-    this.ctx.stroke();
-    this.ctx.fill();
-    this.ctx.fillStyle = "white";
-    this.ctx.font = '20px Inconsolata';
-    this.ctx.textAlign = "center";
-    this.ctx.fillText("Bend", x+width/2, y+height/2+5);
+    // const arcsize = 25;
+    // this.ctx.beginPath();
+    // this.ctx.moveTo(x, y);
+    // this.ctx.moveTo(x+arcsize, y);
+    // this.ctx.lineTo(x+width-arcsize, y);
+    // this.ctx.arcTo(x+width, y, x+width, y+arcsize, arcsize);
+    // this.ctx.lineTo(x+width,y+height-arcsize);
+    // this.ctx.arcTo(x+width, y+height, x+width-arcsize, y+height, arcsize);
+    // this.ctx.lineTo(x+arcsize, y+height);
+    // this.ctx.arcTo(x, y+height, x, y-arcsize, arcsize);
+    // this.ctx.lineTo(x, y+arcsize);
+    // this.ctx.arcTo(x, y, x+arcsize, y, arcsize);
+    // this.ctx.lineTo(x+arcsize, y);
+    // this.ctx.stroke();
+    // this.ctx.fill();
+    // this.ctx.fillStyle = "white";
+    // this.ctx.font = '20px Inconsolata';
+    // this.ctx.textAlign = "center";
+    // this.ctx.fillText("Bend", x+width/2, y+height/2+5);
 
   }
 
