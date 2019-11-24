@@ -541,6 +541,124 @@ class SpectrogramProvider extends Component {
             this.setState({harmonicMotion: false})
           }
         },
+        handleSpace: e => {
+          let preset = (this.state.preset + 1) % 11;
+          let numHarmonics = 0;
+          let delay = false;
+          let delayFeedback = 0;
+          let delayTime = 0;
+          let reverbTime = 1;
+          let amOn = false;
+          let amFrequency = 0;
+          let amAmplitude = 0;
+          let fmOn = false;
+          let fmFrequency = 0;
+          let fmAmplitude = 0;
+          let sustain = false;
+          if (this.state.interval) {
+            clearInterval(this.state.interval)
+          }
+          switch (preset) {
+            case 1:
+              numHarmonics = 2;
+              delayFeedback = 0.65;
+              delayTime = 0.5;
+              delay = true;
+              break;
+            case 2:
+              numHarmonics = 4;
+              delay = true;
+              delayTime = 0.4;
+              break;
+            case 3:
+              delay = true;
+              delayTime = 0.3;
+              numHarmonics = 10;
+              fmOn = true;
+              fmFrequency = 0.3;
+              fmAmplitude = 0.1;
+              break;
+            case 4:
+              delay = true;
+              delayTime = 0.7;
+              numHarmonics = 31;
+              fmOn = true;
+              fmFrequency = 0.3;
+              fmAmplitude = 0.25;
+              break;
+            case 5:
+              delay = true;
+              delayTime = 0.2;
+              amOn = true;
+              amFrequency = 0.45;
+              amAmplitude = 1;
+              numHarmonics = 0;
+              this.setState({
+                outputVolume: 0.3
+              })
+              break;
+            case 6:
+              delay = true;
+              delayTime = 0.2;
+              numHarmonics = 11;
+              amOn = true;
+              amFrequency = 0.45;
+              amAmplitude = 1;
+              break;
+            case 7:
+              delay = true;
+              delayTime = 0.2;
+              numHarmonics = 31;
+              fmOn = true;
+              fmFrequency = 0.7;
+              fmAmplitude = 1;
+              this.setState({
+                outputVolume: 0.5
+              })
+              break;
+            case 8:
+              delay = true;
+              delayTime = 0.2;
+              numHarmonics = 3;
+              fmOn = true;
+              fmFrequency = 0.35;
+              fmAmplitude = 1;
+              break;
+            case 9:
+              delay = true;
+              delayTime = 0.2;
+              numHarmonics = 0;
+              sustain = true;
+              fmOn = true;
+              fmFrequency = 0.4;
+              fmAmplitude = 0.1;
+              break;
+            case 10:
+              delay = true;
+              delayTime = 0.2;
+              numHarmonics = 19;
+              fmOn = true;
+              fmFrequency = 0.4;
+              fmAmplitude = 0.1;
+              break;
+          }
+          this.setState({
+            preset: preset,
+            reverbOn: true,
+            reverbTime: reverbTime,
+            delayOn: delay,
+            delayFeedback: delayFeedback,
+            delayTime: delayTime,
+            amOn: amOn,
+            amRate: amFrequency,
+            amLevel: amAmplitude,
+            fmOn: fmOn,
+            fmRate: fmFrequency,
+            fmLevel: fmAmplitude,
+            sustain: sustain,
+            numHarmonics: numHarmonics
+          });
+        },
         handlePresetChange: preset => {
           let numHarmonics = 0;
           let delay = false;
@@ -592,6 +710,7 @@ class SpectrogramProvider extends Component {
               amFrequency = 0.45;
               amAmplitude = 1;
               numHarmonics = 0;
+              this.setState({outputVolume: 0.3})
             break;
             case 6:
               delay = true;
@@ -608,6 +727,7 @@ class SpectrogramProvider extends Component {
               fmOn = true;
               fmFrequency = 0.7;
               fmAmplitude = 1;
+              this.setState({ outputVolume: 0.5 })
             break;
             case 8:
               delay = true;
@@ -624,8 +744,7 @@ class SpectrogramProvider extends Component {
               sustain = true;
               fmOn = true;
               fmFrequency = 0.4;
-              fmAmplitude = 0.1;
-              
+              fmAmplitude = 0.1;              
             break;
             case 10:
               delay = true;

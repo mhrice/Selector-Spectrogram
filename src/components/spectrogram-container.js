@@ -86,8 +86,13 @@ class SpectrogramContainer extends Component {
       <Button icon onClick={this.toggleFullScreen} className="fullscreenbutton"> 
       <Icon fitted name="expand" color="orange" size="large"/> 
       </Button>
+
       </div>
       }
+      <div className="piece-title">
+        Restless<br></br>
+        Matthew Rice
+      </div>
 
       </SpectrogramProvider>
       </div>

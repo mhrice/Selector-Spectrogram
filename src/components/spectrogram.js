@@ -380,7 +380,7 @@ class Spectrogram extends Component {
     e.preventDefault();
     e.stopPropagation();
     // this.context.handlePause();
-    // this.context.handleSpace();
+    this.context.handleSpace();
   }
 
   shiftPressed = e => {

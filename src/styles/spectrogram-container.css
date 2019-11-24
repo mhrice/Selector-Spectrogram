@@ -1,9 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Cormorant+Garamond');
+
 .fullscreenbutton {
     position: absolute;
     bottom: 0%;
     right: 0%;
     z-index: 51;
     opacity: 0.5;
+}
+
+.piece-title {
+    position: absolute;
+    bottom: 1%;
+    right: 1%;
+    z-index: 50;
+    opacity: 0.5;
+    font-size: 18px;
+    color: white;
+    user-select: none;
+    font-family: 'Cormorant Garamond';
 }
 
 canvas {
