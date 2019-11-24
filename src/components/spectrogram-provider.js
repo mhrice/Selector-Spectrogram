@@ -130,7 +130,8 @@ class SpectrogramProvider extends Component {
         handleNoteLinesToggle: () => this.setState({noteLinesOn: !this.state.noteLinesOn}),
         handleOutputVolumeChange: value => {
           if(this.state.isStarted){
-            this.setState({outputVolume:value});
+            console.log(value)
+            // this.setState({outputVolume:value});
           }
         },
         handleTimbreChange: (e, data) => {

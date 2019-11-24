@@ -287,7 +287,10 @@ class SoundMaking extends Component {
         
         let newGain = gain + 20 * Math.log10(max);
         this.synths[newVoice].volume.value = newGain; // Starts the synth at volume = gain
-        let volume = this.state.numHarmonics + 1;
+        let volume = this.context.state.numHarmonics + 1;
+        // if (this.context.state.numHarmonics > 30) {
+        //   volume = volume + 20;
+        // }
         this.context.handleOutputVolumeChange(volume);
         // console.log(gain, 20*Math.log10(max), gain+20*Math.log10(max))
       }
@@ -361,7 +364,7 @@ class SoundMaking extends Component {
           return weightFromFilter * weight;
         })
       let newGain = gain + 20 * Math.log10(max);
-      let volume = this.state.numHarmonics + 1;
+      let volume = this.context.state.numHarmonics + 1;
       this.context.handleOutputVolumeChange(volume);
       if (this.context.state.scaleOn) {
         // Jumps to new Frequency and Volume
@@ -484,7 +487,12 @@ class SoundMaking extends Component {
             return weightFromFilter * weight;
           });
           let newGain = gain + 20 * Math.log10(max);
-          let volume = this.state.numHarmonics + 1;
+          // let volume = this.context.state.numHarmonics + 1;
+          let volume = convertToLog(this.context.state.numHarmonics, 1, 31, 1, 100);
+          // console.log(volume)
+          // if (this.context.state.numHarmonics > 30) {
+          //   volume = volume + 20;
+          // }
           this.context.handleOutputVolumeChange(volume);
           this.synths[newVoice].volume.value = newGain;
           if (this.state.pitchButtonPressed) {
@@ -583,7 +591,11 @@ class SoundMaking extends Component {
           // console.log("Volume: " + getGain(xPercent));
           // console.log("partials: " + this.synths[index].oscillator.partials);
             let newGain = gain + 20 * Math.log10(max);
-            let volume = this.state.numHarmonics + 1;
+            let volume = convertToLog(this.context.state.numHarmonics, 1, 31, 1, 100);
+
+            // if(this.context.state.numHarmonics > 30){
+            //   volume = volume + 20;
+            // }
             this.context.handleOutputVolumeChange(volume);
           // These are the same as onMouseMove
           if (this.context.state.scaleOn && !this.state.pitchButtonPressed) {
@@ -851,7 +863,12 @@ class SoundMaking extends Component {
           this.drawHarmonics(i, freq, xPos);
         }
         // let newGain = 90*Math.log10(numHarmonics+1) + 10;
-        let newGain = numHarmonics + 1;
+        // let newGain = numHarmonics + 1;
+        // if (this.context.state.numHarmonics > 30) {
+          // newGain = newGain + 20;
+        // }
+        let newGain = convertToLog(this.context.state.numHarmonics, 1, 31, 1, 100);
+
         this.context.handleOutputVolumeChange(newGain);
 
       }
