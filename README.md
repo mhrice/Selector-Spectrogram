@@ -1,4 +1,4 @@
-﻿# Web Spectrogram
+﻿# Web Spectrogram (Modified for Selector Concert 11/23/19)
 An insanely interactive live-input spectrogram with sound creation built in. 
 
 Click [here](https://spectrogram.sciencemusic.org/) to view the live demo. 
